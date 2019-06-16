@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.yallam.marvelapp.R
 import com.yallam.marvelapp.base.extensionfunctions.load
-import com.yallam.marvelapp.data.remote.model.CharacterModel
+import com.yallam.marvelapp.data.model.CharacterModel
 
 /**
  * Created by Yahia Allam on 16/06/2019

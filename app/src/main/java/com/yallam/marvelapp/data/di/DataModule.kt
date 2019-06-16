@@ -8,5 +8,5 @@ import org.koin.dsl.module.module
  */
 val dataModule = module {
 
-    factory { CharactersRepository(apiEndpoints = get()) }
+    factory { CharactersRepository(apiEndpoints = get(), charactersDao = get()) }
 }

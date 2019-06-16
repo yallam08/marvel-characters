@@ -2,6 +2,7 @@ package com.yallam.marvelapp.base
 
 import android.app.Application
 import com.yallam.marvelapp.data.di.dataModule
+import com.yallam.marvelapp.data.di.localModule
 import com.yallam.marvelapp.data.di.remoteModule
 import com.yallam.marvelapp.data.di.rxModule
 import com.yallam.marvelapp.presentation.di.viewModelModule
@@ -22,8 +23,9 @@ class MarvelApplication : Application() {
         startKoin(
             this,
             listOf(
-                dataModule,
                 remoteModule,
+                localModule,
+                dataModule,
                 rxModule,
                 viewModelModule
             )

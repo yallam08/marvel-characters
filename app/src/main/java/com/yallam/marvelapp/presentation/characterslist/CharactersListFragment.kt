@@ -11,9 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yallam.marvelapp.R
 import com.yallam.marvelapp.base.BaseFragment
-import com.yallam.marvelapp.data.remote.model.CharacterModel
+import com.yallam.marvelapp.data.model.CharacterModel
 import kotlinx.android.synthetic.main.fragment_characters_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.IOException
 
 class CharactersListFragment : BaseFragment() {
 
@@ -50,7 +51,7 @@ class CharactersListFragment : BaseFragment() {
             when (state) {
                 is CharactersListState.Loading -> showLoading()
                 is CharactersListState.Ready -> showCharacters(state.characters)
-                is CharactersListState.Error -> showError(state.msg)
+                is CharactersListState.Error -> showError(state.throwable)
             }
         })
     }
@@ -70,9 +71,11 @@ class CharactersListFragment : BaseFragment() {
         rvCharacters.visibility = VISIBLE
     }
 
-    private fun showError(error: String?) {
-        if (error.isNullOrBlank().not()) {
-            tvError.text = error
+    private fun showError(throwable: Throwable) {
+        tvError.text = if (throwable is IOException) {
+            getString(R.string.internet_connection_error)
+        } else {
+            getString(R.string.something_wrong_error)
         }
 
         progressBarLoading.visibility = GONE

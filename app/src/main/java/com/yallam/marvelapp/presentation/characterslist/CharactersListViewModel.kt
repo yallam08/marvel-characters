@@ -28,7 +28,7 @@ class CharactersListViewModel(
                 .doOnSubscribe { stateMutableLiveData.value = CharactersListState.Loading }
                 .subscribe(
                     { stateMutableLiveData.value = CharactersListState.Ready(it) },
-                    { stateMutableLiveData.value = CharactersListState.Error(it.message) }
+                    { stateMutableLiveData.value = CharactersListState.Error(it) }
                 )
         )
     }

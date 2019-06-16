@@ -30,7 +30,7 @@
             android:id="@+id/tvError"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:text="Something went wrong, please try again"
+            android:text="@string/something_wrong_error"
             android:visibility="gone"
             android:gravity="center"
             android:padding="30dp"

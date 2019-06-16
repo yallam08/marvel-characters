@@ -1,6 +1,6 @@
 package com.yallam.marvelapp.data.remote
 
-import com.yallam.marvelapp.data.remote.model.CharacterModel
+import com.yallam.marvelapp.data.model.CharacterModel
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
