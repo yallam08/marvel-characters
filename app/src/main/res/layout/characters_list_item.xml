@@ -26,6 +26,7 @@
             android:layout_marginStart="20dp"
             android:background="@android:color/white"
             android:padding="10dp"
+            android:textColor="@color/darkText"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/ivCharactersListItemThumb"
             app:layout_constraintStart_toStartOf="@+id/ivCharactersListItemThumb"/>

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.yallam.marvelapp.R
 import com.yallam.marvelapp.base.BaseFragment
 import com.yallam.marvelapp.data.model.CharacterModel
+import com.yallam.marvelapp.presentation.characterdetails.CharacterDetailsFragment
 import kotlinx.android.synthetic.main.fragment_characters_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.IOException
@@ -84,8 +85,7 @@ class CharactersListFragment : BaseFragment() {
     }
 
     private fun charactersListItemClickCallback(character: CharacterModel) {
-        //TODO
-//        fragmentNavigator.navigateToFragmentSaveState(this, CharacterDetailsFragment.newInstance(character))
+        fragmentNavigator.navigateToFragmentSaveState(this, CharacterDetailsFragment.newInstance(character))
     }
 
 }

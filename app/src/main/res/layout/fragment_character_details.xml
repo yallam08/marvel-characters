@@ -1,0 +1,125 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".presentation.characterdetails.CharacterDetailsFragment">
+
+    <ProgressBar
+            android:id="@+id/progressBarLoading"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            tools:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+            android:id="@+id/tvError"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/something_wrong_error"
+            android:visibility="gone"
+            android:gravity="center"
+            android:padding="30dp"
+            android:textSize="18sp"/>
+
+    <!-- region Toolbar -->
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:contentScrim="?attr/colorPrimary"
+                android:fitsSystemWindows="true">
+
+            <ImageView
+                    android:id="@+id/ivCharacterDetailsCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="pin"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- endregion Toolbar -->
+
+    <!-- region Content -->
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/containerCharacterDetailsContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:id="@+id/tvCharacterNameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textAllCaps="true"
+                    android:text="@string/name"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"/>
+
+            <TextView
+                    android:id="@+id/tvCharacterName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCharacterNameLabel"
+                    app:layout_constraintStart_toStartOf="@+id/tvCharacterNameLabel"
+                    android:textSize="20sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    tools:text="A.I.M"/>
+
+            <TextView
+                    android:id="@+id/tvCharacterDescriptionLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textAllCaps="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCharacterName"
+                    app:layout_constraintStart_toStartOf="@+id/tvCharacterNameLabel"
+                    android:text="@string/description"/>
+
+            <TextView
+                    android:id="@+id/tvCharacterDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCharacterDescriptionLabel"
+                    app:layout_constraintStart_toStartOf="@+id/tvCharacterNameLabel"
+                    tools:text="A.I.M is a terrorist organization build to destroy the world"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- endregion Content -->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

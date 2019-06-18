@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity(), FragmentNavigator {
     private fun addFragment(currentFragment: Fragment, newFragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .setReorderingAllowed(true)
             .hide(currentFragment)
             .add(R.id.fragment_container, newFragment, newFragment::class.simpleName)
             .addToBackStack(null)

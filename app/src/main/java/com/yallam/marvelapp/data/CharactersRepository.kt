@@ -29,4 +29,8 @@ class CharactersRepository(private val apiEndpoints: ApiEndpoints, private val c
                 }
             }
     }
+
+    fun getCharacterById(characterId: Long): Single<CharacterModel> {
+        return charactersDao.getCharacterById(characterId)
+    }
 }

@@ -16,10 +16,10 @@ interface CharactersDao {
     @Query("SELECT * FROM character")
     fun getCharacters(): Single<List<CharacterModel>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertCharacter(character: CharacterModel)
 
     @Query("SELECT * FROM character WHERE id = :characterId")
-    fun getCharacterById(characterId: Int): Single<CharacterModel>
+    fun getCharacterById(characterId: Long): Single<CharacterModel>
 
 }

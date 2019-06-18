@@ -1,4 +1,4 @@
-package com.yallam.marvelapp.presentation.characterslist
+package com.yallam.marvelapp.presentation.characterdetails
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -9,30 +9,29 @@ import com.yallam.marvelapp.data.CharactersRepository
 import io.reactivex.disposables.CompositeDisposable
 
 /**
- * Created by Yahia Allam on 15/06/2019
+ * Created by Yahia Allam on 18/06/2019
  */
-class CharactersListViewModel(
+class CharacterDetailsViewModel(
     private val charactersRepository: CharactersRepository,
     private val threadSchedulers: ThreadSchedulers,
     private val compositeDisposable: CompositeDisposable
 ) : ViewModel() {
 
-    private val stateMutableLiveData: MutableLiveData<CharactersListState> = MutableLiveData()
+    private val stateMutableLiveData: MutableLiveData<CharacterDetailsState> = MutableLiveData()
 
-    //TODO: extract to usecase
-    fun getCharacters() {
+    fun getCharacter(characterId: Long) {
         compositeDisposable.add(
-            charactersRepository.getCharacters(20)
+            charactersRepository.getCharacterById(characterId)
                 .subscribeOn(threadSchedulers.getIOThread())
-                .doOnSubscribe { stateMutableLiveData.postValue(CharactersListState.Loading) }
+                .doOnSubscribe { stateMutableLiveData.postValue(CharacterDetailsState.Loading) }
                 .subscribe(
-                    { stateMutableLiveData.postValue(CharactersListState.Ready(it)) },
-                    { stateMutableLiveData.postValue(CharactersListState.Error(it)) }
+                    { stateMutableLiveData.postValue(CharacterDetailsState.Ready(it)) },
+                    { stateMutableLiveData.postValue(CharacterDetailsState.Error(it)) }
                 )
         )
     }
 
-    fun observeState(owner: LifecycleOwner, observer: Observer<CharactersListState>) {
+    fun observeState(owner: LifecycleOwner, observer: Observer<CharacterDetailsState>) {
         stateMutableLiveData.observe(owner, observer)
     }
 

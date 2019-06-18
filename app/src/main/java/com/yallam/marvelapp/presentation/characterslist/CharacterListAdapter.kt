@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.yallam.marvelapp.R
+import com.yallam.marvelapp.base.extensionfunctions.getDrawableResIdFromName
 import com.yallam.marvelapp.base.extensionfunctions.load
 import com.yallam.marvelapp.data.model.CharacterModel
 
@@ -38,13 +39,9 @@ class CharacterListAdapter(
         private val itemTitle: TextView = view.findViewById(R.id.tvCharactersListItemTitle)
 
         fun bind(character: CharacterModel) {
-            itemThumb.load(getDrawableResIdFromName(character.thumbnail))
+            itemThumb.load(context.getDrawableResIdFromName(character.thumbnail))
             itemTitle.text = character.name
             itemContainer.setOnClickListener { itemClickCallback(character) }
-        }
-
-        private fun getDrawableResIdFromName(drawableName: String): Int {
-            return context.resources.getIdentifier(drawableName, "drawable", context.packageName)
         }
     }
 }
