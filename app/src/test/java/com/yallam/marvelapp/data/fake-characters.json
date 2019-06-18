@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Spiderman",
+    "description": "With spider powers",
+    "thumbnail": "spiderman"
+  },
+  {
+    "id": 2,
+    "name": "Captain America",
+    "description": "He is considered the leader of the Avengers",
+    "thumbnail": "captain_america"
+  },
+  {
+    "id": 3,
+    "name": "Thor",
+    "description": "A half god hero",
+    "thumbnail": "thor"
+  },
+  {
+    "id": 4,
+    "name": "Ironman",
+    "description": "Super smart and super rich",
+    "thumbnail": "ironman"
+  },
+  {
+    "id": 5,
+    "name": "Antman",
+    "description": "Can get too small to a size of an ant",
+    "thumbnail": "antman"
+  }
+]
