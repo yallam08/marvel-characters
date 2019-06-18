@@ -5,20 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.yallam.marvelapp.base.schedulers.ThreadSchedulers
-import com.yallam.marvelapp.data.CharactersRepository
+import com.yallam.marvelapp.data.ICharactersRepository
 import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by Yahia Allam on 18/06/2019
  */
 class CharacterDetailsViewModel(
-    private val charactersRepository: CharactersRepository,
+    private val charactersRepository: ICharactersRepository,
     private val threadSchedulers: ThreadSchedulers,
     private val compositeDisposable: CompositeDisposable
 ) : ViewModel() {
 
     private val stateMutableLiveData: MutableLiveData<CharacterDetailsState> = MutableLiveData()
 
+    //TODO: extract to usecase
     fun getCharacter(characterId: Long) {
         compositeDisposable.add(
             charactersRepository.getCharacterById(characterId)

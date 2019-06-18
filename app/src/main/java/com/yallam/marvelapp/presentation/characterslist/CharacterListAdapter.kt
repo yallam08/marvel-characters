@@ -17,7 +17,7 @@ import com.yallam.marvelapp.data.model.CharacterModel
  * Created by Yahia Allam on 16/06/2019
  */
 class CharacterListAdapter(
-    var characters: List<CharacterModel>,
+    var characters: MutableList<CharacterModel>,
     private val itemClickCallback: (character: CharacterModel) -> Unit
 ) : RecyclerView.Adapter<CharacterListAdapter.ViewHolder>() {
 

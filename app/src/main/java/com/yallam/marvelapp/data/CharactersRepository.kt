@@ -8,11 +8,13 @@ import java.io.IOException
 
 /**
  * Created by Yahia Allam on 15/06/2019
+ * //TODO add additional *data source* layer to the repository, i.e (RemoteDataSource, LocalDataSource) interfaces
  */
-class CharactersRepository(private val apiEndpoints: ApiEndpoints, private val charactersDao: CharactersDao) {
+class CharactersRepository(private val apiEndpoints: ApiEndpoints, private val charactersDao: CharactersDao) :
+    ICharactersRepository {
 
-    fun getCharacters(limit: Long): Single<List<CharacterModel>> {
-        return apiEndpoints.getCharacters(limit)
+    override fun getCharacters(): Single<List<CharacterModel>> {
+        return apiEndpoints.getCharacters()
             .doAfterSuccess { character ->
                 character.forEach { charactersDao.insertCharacter(it) }
             }.onErrorResumeNext { throwable ->
@@ -30,7 +32,14 @@ class CharactersRepository(private val apiEndpoints: ApiEndpoints, private val c
             }
     }
 
-    fun getCharacterById(characterId: Long): Single<CharacterModel> {
+    override fun getMoreCharacters(): Single<List<CharacterModel>> {
+        return apiEndpoints.getMoreCharacters()
+            .doAfterSuccess { character ->
+                character.forEach { charactersDao.insertCharacter(it) }
+            }
+    }
+
+    override fun getCharacterById(characterId: Long): Single<CharacterModel> {
         return charactersDao.getCharacterById(characterId)
     }
 }

@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.yallam.marvelapp.R
 import com.yallam.marvelapp.base.BaseFragment
 import com.yallam.marvelapp.data.model.CharacterModel
@@ -21,13 +22,15 @@ class CharactersListFragment : BaseFragment() {
 
     private val viewModel: CharactersListViewModel by viewModel()
     private val characterListAdapter: CharacterListAdapter by lazy {
-        CharacterListAdapter(emptyList(), ::charactersListItemClickCallback)
+        CharacterListAdapter(mutableListOf(), ::charactersListItemClickCallback)
     }
+    private var shouldLoadMore = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_characters_list, container, false)
 
-        observeViewModel()
+        observeViewModelInitialState()
+        observeViewModelLoadMoreState()
         viewModel.getCharacters()
 
         return rootView
@@ -37,6 +40,7 @@ class CharactersListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initCharacterListRecyclerView()
+        charactersListRecyclerViewPagination()
     }
 
     private fun initCharacterListRecyclerView() {
@@ -47,12 +51,31 @@ class CharactersListFragment : BaseFragment() {
         }
     }
 
-    private fun observeViewModel() {
-        viewModel.observeState(this, Observer { state ->
+    private fun charactersListRecyclerViewPagination() {
+        rvCharacters.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (shouldLoadMore && !recyclerView.canScrollVertically(1)) {
+                    viewModel.getMoreCharacters()
+                }
+            }
+        })
+    }
+
+    private fun observeViewModelInitialState() {
+        viewModel.observeInitialState(this, Observer { state ->
             when (state) {
                 is CharactersListState.Loading -> showLoading()
                 is CharactersListState.Ready -> showCharacters(state.characters)
                 is CharactersListState.Error -> showError(state.throwable)
+            }
+        })
+    }
+
+    private fun observeViewModelLoadMoreState() {
+        viewModel.observeLoadMoreState(this, Observer { state ->
+            when (state) {
+                is CharactersListState.Loading -> showLoadMoreLoading()
+                is CharactersListState.Ready -> showMoreCharacters(state.characters)
             }
         })
     }
@@ -64,7 +87,7 @@ class CharactersListFragment : BaseFragment() {
     }
 
     private fun showCharacters(characters: List<CharacterModel>) {
-        characterListAdapter.characters = characters
+        characterListAdapter.characters = characters.toMutableList()
         characterListAdapter.notifyDataSetChanged()
 
         progressBarLoading.visibility = GONE
@@ -86,6 +109,16 @@ class CharactersListFragment : BaseFragment() {
 
     private fun charactersListItemClickCallback(character: CharacterModel) {
         fragmentNavigator.navigateToFragmentSaveState(this, CharacterDetailsFragment.newInstance(character))
+    }
+
+    private fun showLoadMoreLoading() {
+
+    }
+
+    private fun showMoreCharacters(characters: List<CharacterModel>) {
+        characterListAdapter.characters.addAll(characters)
+        characterListAdapter.notifyDataSetChanged()
+        shouldLoadMore = false
     }
 
 }

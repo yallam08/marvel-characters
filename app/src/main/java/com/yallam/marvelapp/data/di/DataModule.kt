@@ -1,6 +1,7 @@
 package com.yallam.marvelapp.data.di
 
 import com.yallam.marvelapp.data.CharactersRepository
+import com.yallam.marvelapp.data.ICharactersRepository
 import org.koin.dsl.module.module
 
 /**
@@ -8,5 +9,5 @@ import org.koin.dsl.module.module
  */
 val dataModule = module {
 
-    factory { CharactersRepository(apiEndpoints = get(), charactersDao = get()) }
+    factory<ICharactersRepository> { CharactersRepository(apiEndpoints = get(), charactersDao = get()) }
 }
