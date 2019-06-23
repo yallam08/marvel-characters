@@ -21,6 +21,9 @@ class CharacterListAdapter(
     private val itemClickCallback: (character: CharacterModel) -> Unit
 ) : RecyclerView.Adapter<CharacterListAdapter.ViewHolder>() {
 
+    var isSearching = false
+    private val charactersBeforeSearch: MutableList<CharacterModel> = mutableListOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.characters_list_item, parent, false)
         return ViewHolder(parent.context, view)
@@ -30,6 +33,32 @@ class CharacterListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(characters[position])
+    }
+
+    fun search(query: String) {
+        isSearching = true
+
+        charactersBeforeSearch.apply {
+            if (isEmpty()) addAll(characters)
+        }
+
+        charactersBeforeSearch.filter {
+            it.name.toLowerCase().contains(query.trim().toLowerCase())
+        }.also {
+            characters = it.toMutableList()
+            notifyDataSetChanged()
+        }
+    }
+
+    fun clearSearch() {
+        characters.apply {
+            clear()
+            addAll(charactersBeforeSearch)
+        }
+        charactersBeforeSearch.clear()
+        notifyDataSetChanged()
+
+        isSearching = false
     }
 
 

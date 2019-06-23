@@ -4,5 +4,6 @@
     <string name="something_wrong_error">Something went wrong, please try again</string>
     <string name="description">Description</string>
     <string name="name">Name</string>
+    <string name="character_search_hint">Search characters...</string>
 
 </resources>

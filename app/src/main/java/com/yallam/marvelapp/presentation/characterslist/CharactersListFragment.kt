@@ -1,12 +1,14 @@
 package com.yallam.marvelapp.presentation.characterslist
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +16,12 @@ import com.yallam.marvelapp.R
 import com.yallam.marvelapp.base.BaseFragment
 import com.yallam.marvelapp.data.model.CharacterModel
 import com.yallam.marvelapp.presentation.characterdetails.CharacterDetailsFragment
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_characters_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class CharactersListFragment : BaseFragment() {
 
@@ -41,6 +46,7 @@ class CharactersListFragment : BaseFragment() {
 
         initCharacterListRecyclerView()
         charactersListRecyclerViewPagination()
+        initSearchView()
     }
 
     private fun initCharacterListRecyclerView() {
@@ -54,9 +60,34 @@ class CharactersListFragment : BaseFragment() {
     private fun charactersListRecyclerViewPagination() {
         rvCharacters.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (shouldLoadMore && !recyclerView.canScrollVertically(1)) {
+                if (shouldLoadMore
+                    && !characterListAdapter.isSearching
+                    && !recyclerView.canScrollVertically(1)
+                ) {
                     viewModel.getMoreCharacters()
                 }
+            }
+        })
+    }
+
+    //TODO: replace with normal edittext
+    private fun initSearchView() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean = true
+
+            @SuppressLint("CheckResult")
+            override fun onQueryTextChange(newText: String): Boolean {
+                Single.just(newText).delay(700, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { text ->
+                        if (text.isNotBlank()) {
+                            searchCharacters(text)
+                        } else {
+                            clearCharactersSearch()
+                        }
+                    }
+
+                return true
             }
         })
     }
@@ -119,6 +150,14 @@ class CharactersListFragment : BaseFragment() {
         characterListAdapter.characters.addAll(characters)
         characterListAdapter.notifyDataSetChanged()
         shouldLoadMore = false
+    }
+
+    fun searchCharacters(query: String) {
+        characterListAdapter.search(query)
+    }
+
+    private fun clearCharactersSearch() {
+        characterListAdapter.clearSearch()
     }
 
 }
